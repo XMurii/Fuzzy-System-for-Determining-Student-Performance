@@ -1,82 +1,86 @@
-# Penjelasan Kode Sistem Fuzzy untuk Perhitungan Nilai
+# Penjelasan Sistem Fuzzy Penilaian (Mamdani & Sugeno)
 
-## 1. Pendahuluan
-Kode ini mengimplementasikan sistem fuzzy untuk menghitung nilai akhir berdasarkan tiga komponen: nilai kuis, nilai ujian, dan nilai tugas. Sistem fuzzy yang digunakan adalah metode Mamdani dan Sugeno.
+## Deskripsi Umum
 
----
+Kode ini merupakan implementasi sistem penilaian berbasis fuzzy logic menggunakan dua metode: **Mamdani** dan **Sugeno**. Sistem ini digunakan untuk menentukan nilai akhir dan grade mahasiswa berdasarkan total nilai QUIZ, UJIAN, dan TUGAS (masing-masing hasil penjumlahan 4 CLO, range 0–400).
 
-## 2. Metode Mamdani
+## Bobot Penilaian
 
-### 2.1 Definisi Variabel Input dan Output
-- **Input**: `quiz`, `exam`, dan `assignment` dengan rentang nilai dari 0 hingga 100.
-- **Output**: `final_score` dengan rentang nilai dari 0 hingga 100.
+- **QUIZ**: (CLO1 + CLO2 + CLO3 + CLO4) × 5% (maksimal 20)
+- **UJIAN**: (CLO1 + CLO2 + CLO3 + CLO4) × 12.5% (maksimal 50)
+- **TUGAS**: (CLO1 + CLO2 + CLO3 + CLO4) × 7.5% (maksimal 30)
+- **Total Nilai Maksimal**: 100
 
-### 2.2 Fungsi Keanggotaan Input
-Untuk tiap input dibuat 3 fungsi keanggotaan menggunakan fungsi triangular (trimf):
-- `low` (rendah): nilai di bawah 50
-- `medium` (sedang): nilai antara sekitar 30 sampai 70
-- `high` (tinggi): nilai di atas 50
+## 1. Fuzzy Mamdani
 
-### 2.3 Fungsi Keanggotaan Output
-Output `final_score` memiliki fungsi keanggotaan dengan label grade:
-- `F` (gagal): 0 - 50
-- `D`: 40 - 60
-- `C`: 50 - 70
-- `B`: 65 - 85
-- `A`: 80 - 100
+### a. Definisi Variabel
 
-### 2.4 Aturan Fuzzy (Rule Base)
+- **Input**: quiz, exam, assignment (range 0–400)
+- **Output**: final_score (range 0–100)
+
+### b. Fungsi Keanggotaan
+
+- Input (quiz, exam, assignment): low, medium, high (dengan trimf pada range 0–400)
+- Output (final_score): F, D, C, B, A (dengan trimf pada range 0–100)
+
+### c. Aturan Fuzzy
+
 Contoh aturan:
-- Jika `quiz` tinggi, `exam` tinggi, dan `assignment` tinggi, maka `final_score` adalah `A`.
-- Jika salah satu nilai rendah, maka `final_score` adalah `F`.
-- Aturan-aturan lain sesuai kombinasi nilai.
 
-### 2.5 Penggunaan dan Simulasi
-Input nilai diberikan:
-```python  
-final_sim.input['quiz'] = 75  
-final_sim.input['exam'] = 80  
-final_sim.input['assignment'] = 70
-```
-Hasil output defuzzifikasi berupa nilai akhir.
+- Jika quiz, exam, assignment **high** → final_score **A**
+- Jika salah satu **low** → final_score **F**
+- Kombinasi lain menghasilkan B, C, D
 
-## 3. Metode Sugeno
-### 3.1 Fungsi Keanggotaan
-Fungsi keanggotaan low, medium, dan high dibuat secara manual untuk tiap input.
+### d. Proses
 
-### 3.2 Aturan Fuzzy
-Setiap aturan memiliki bobot (degree of membership) dan fungsi linear untuk outputnya, misal:
-```bash
-Output = 0.5*quiz + 0.3*exam + 0.2*assignment
-```
-### 3.3 Proses Perhitungan
-Output dihitung dengan rata-rata terbobot (weighted average) berdasarkan bobot aturan dan fungsi linear.
+- Input nilai quiz, exam, assignment (0–400)
+- Sistem fuzzy menghasilkan nilai akhir (defuzzifikasi)
+- Nilai akhir dikonversi ke grade:
+  - > = 80: A
+  - > = 70: AB
+  - > = 65: B
+  - > = 60: BC
+  - > = 50: C
+  - > = 40: D
+  - < 40: E
 
-### 3.4 Contoh Penggunaan
-Input nilai yang sama digunakan untuk menghitung nilai akhir metode Sugeno.
+## 2. Fuzzy Sugeno
+
+### a. Fungsi Keanggotaan
+
+- Sama seperti Mamdani (low, medium, high)
+
+### b. Aturan Sugeno
+
+- Output aturan berupa fungsi linear:  
+  `nilai_akhir = (quiz/400)*20 + (exam/400)*50 + (assignment/400)*30`
+- Nilai akhir dihitung dengan weighted average dari semua aturan yang aktif.
+
+### c. Proses
+
+- Input nilai quiz, exam, assignment (0–400)
+- Sistem fuzzy menghasilkan nilai akhir (langsung crisp)
+- Nilai akhir dikonversi ke grade (aturan sama seperti Mamdani)
+
+## 3. Output
+
+Kode akan menampilkan:
+
+- Nilai akhir (Mamdani) dan grade-nya
+- Nilai akhir (Sugeno) dan grade-nya
+
+## 4. Perbedaan Mamdani & Sugeno
+
+- **Mamdani**: Output aturan berupa fuzzy set, perlu defuzzifikasi.
+- **Sugeno**: Output aturan berupa fungsi matematis, hasil langsung crisp.
 
 ---
 
-## 4. Kesimpulan
-- **Mamdani** memberikan pendekatan berbasis inferensi fuzzy dengan fungsi keanggotaan lengkap dan defuzzifikasi.
-- **Sugeno** menggunakan fungsi linear pada aturan, cocok untuk model yang ingin output numerik lebih langsung dan perhitungan lebih cepat.
+**Contoh Output:**
 
----
-
-
-## 5. Cara Menggunakan
-1. Ganti nilai input `quiz`, `exam`, dan `assignment` dalam kode sesuai data Anda.
-2. Jalankan script Python.
-3. Lihat hasil nilai akhir dari kedua metode.
-Jika ingin dikembangkan mengolah data dari file Excel secara batch, saya dapat bantu buatkan juga.
-
----
-
-Catatan:
-Kode menggunakan library scikit-fuzzy untuk metode Mamdani. Install dengan:
-
-```bash
-pip install scikit-fuzzy
 ```
-
-Kalau Anda butuh file MD nya saya siapkan untuk di-download juga, silakan beri tahu!
+Nilai akhir (Mamdani) : 78.45
+Grade Mamdani: AB
+Nilai akhir (Sugeno) : 80.25
+Grade Sugeno: A
+```
