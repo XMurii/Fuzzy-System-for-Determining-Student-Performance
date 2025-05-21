@@ -3,8 +3,7 @@
 - Prapemrosesan data untuk memastikan kualitas dataset, seperti pemilihan fitur, penanganan missing value, dll. 
 - Mengimplementasikan Fuzzy System menggunakan metode Mamdani dan Sugeno 
 - Mengevaluasi kinerja Fuzzy System metode Mamdani dan Sugeno pada dataset studi kasus. Gunakan metrik evaluasi seperti akurasi, F1-score, atau metrik lain yang sesuai. Bandingkan kinerja metode Mamdani dan Sugeno, dan lakukan analisis. 
-- Bahasa pemrograman yang digunakan adalah Python. Jika mahasiswa membuat Fuzzy System 
-tanpa library maka akan menjadi nilai tambah dalam Tugas Besar ini.
+- Bahasa pemrograman yang digunakan adalah Python.
 
 ## DATA
 Dataset yang digunakan untuk proyek ini memiliki kolom-kolom berikut:
