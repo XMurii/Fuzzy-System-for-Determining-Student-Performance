@@ -1,12 +1,12 @@
 # Proyek Sistem Fuzzy untuk Penilaian Performa Siswa
-## Gambaran Umum
+### Mahasiswa diharapkan setidaknya melakukan hal-hal berikut: 
+- Prapemrosesan data untuk memastikan kualitas dataset, seperti pemilihan fitur, penanganan missing value, dll. 
+- Mengimplementasikan Fuzzy System menggunakan metode Mamdani dan Sugeno 
+- Mengevaluasi kinerja Fuzzy System metode Mamdani dan Sugeno pada dataset studi kasus. Gunakan metrik evaluasi seperti akurasi, F1-score, atau metrik lain yang sesuai. Bandingkan kinerja metode Mamdani dan Sugeno, dan lakukan analisis. 
+- Bahasa pemrograman yang digunakan adalah Python. Jika mahasiswa membuat Fuzzy System 
+tanpa library maka akan menjadi nilai tambah dalam Tugas Besar ini.
 
-Proyek ini mengimplementasikan sistem inferensi fuzzy untuk menilai performa siswa berdasarkan beberapa parameter akademik dan non-akademik. Sistem ini dirancang menggunakan dua metode inferensi fuzzy yang populer: Mamdani dan Sugeno. Tujuan dari proyek ini adalah untuk menyediakan alat yang fleksibel dan interpretatif untuk mengevaluasi performa siswa, yang dapat membantu pendidik dalam mengidentifikasi siswa yang membutuhkan perhatian lebih atau pengakuan atas kinerja yang luar biasa.
-
-## Latar Belakang
-
-Penilaian performa siswa seringkali melibatkan banyak faktor subjektif dan objektif. Sistem fuzzy logic adalah pendekatan yang cocok untuk masalah seperti ini karena kemampuannya untuk menangani ketidakpastian dan informasi yang tidak presisi, serta memodelkan penalaran manusia yang berdasarkan aturan "IF-THEN".
-
+## DATA
 Dataset yang digunakan untuk proyek ini memiliki kolom-kolom berikut:
 - `Student_ID`
 - `First_Name`, `Last_Name`
@@ -64,7 +64,7 @@ Beberapa isu dalam dataset:
 
 ---
 
-## 📋 Tabel Aturan Fuzzy: `Attendance` × `Total_Score` × `Projects_Score` → `Performa_Siswa`
+### 📋 Tabel Aturan Fuzzy: `Attendance` × `Total_Score` × `Projects_Score` → `Performa_Siswa`
 | No. | Attendance | Total\_Score | Projects\_Score | Performa\_Siswa |
 | --- | ---------- | ------------ | --------------- | --------------- |
 | 1   | low        | low          | few             | poor            |
